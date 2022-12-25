@@ -23,8 +23,6 @@ describe('Create room', () => {
 
     const room = await emit(socket, 'createRoom', { nickname });
 
-    console.log('room', room);
-
     expect(zodRoomDto.safeParse(room)).to.have.property('success', true);
 
     expect(room.leader).to.equal(nickname);

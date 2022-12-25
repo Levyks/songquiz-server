@@ -1,6 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@faker-js/faker': ^7.6.0
   '@types/chai': ^4.3.4
   '@types/chai-as-promised': ^7.1.5
   '@types/mocha': ^10.0.1
@@ -12,6 +13,7 @@ specifiers:
   '@typescript-eslint/parser': ^5.47.0
   chai: ^4.3.7
   chai-as-promised: ^7.1.1
+  cross-env: ^7.0.3
   eslint: ^8.30.0
   jest: ^29.3.1
   mocha: ^10.2.0
@@ -34,6 +36,7 @@ dependencies:
   zod: 3.20.2
 
 devDependencies:
+  '@faker-js/faker': 7.6.0
   '@types/chai': 4.3.4
   '@types/chai-as-promised': 7.1.5
   '@types/mocha': 10.0.1
@@ -45,6 +48,7 @@ devDependencies:
   '@typescript-eslint/parser': 5.47.0_lzzuuodtsqwxnvqeq4g4likcqa
   chai: 4.3.7
   chai-as-promised: 7.1.1_chai@4.3.7
+  cross-env: 7.0.3
   eslint: 8.30.0
   jest: 29.3.1_xgdmd3tdlagpkcvgycprrn3igm
   mocha: 10.2.0
@@ -420,6 +424,11 @@ packages:
       strip-json-comments: 3.1.1
     transitivePeerDependencies:
       - supports-color
+    dev: true
+
+  /@faker-js/faker/7.6.0:
+    resolution: {integrity: sha512-XK6BTq1NDMo9Xqw/YkYyGjSsg44fbNwYRx7QK2CuoQgyy+f1rrTDHoExVM5PsyXCtfl2vs2vVJ0MN0yN6LppRw==}
+    engines: {node: '>=14.0.0', npm: '>=6.0.0'}
     dev: true
 
   /@humanwhocodes/config-array/0.11.8:
@@ -1447,6 +1456,14 @@ packages:
 
   /create-require/1.1.1:
     resolution: {integrity: sha512-dcKFX3jn0MpIaXjisoRvexIJVEKzaq7z2rZKxf+MSr9TkdmHmsU4m2lcLojrj/FHl8mk5VxMmYA+ftRkP/3oKQ==}
+    dev: true
+
+  /cross-env/7.0.3:
+    resolution: {integrity: sha512-+/HKd6EgcQCJGh2PSjZuUitQBQynKor4wrFbRg4DtAgS1aWO+gU52xpH7M9ScGgXSYmAVS9bIJ8EzuaGw0oNAw==}
+    engines: {node: '>=10.14', npm: '>=6', yarn: '>=1'}
+    hasBin: true
+    dependencies:
+      cross-spawn: 7.0.3
     dev: true
 
   /cross-spawn/7.0.3:
