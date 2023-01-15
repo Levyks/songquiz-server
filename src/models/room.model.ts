@@ -1,6 +1,6 @@
 import { config } from '@/config';
 import { RoomRoundsType, RoomStatus } from '@/enums/game.enums';
-import { SocketIoServer } from '@/typings/socket-io';
+import { SocketIoServer } from '@/socket/typings.socket';
 import { Player } from './player.model';
 
 export class Room {

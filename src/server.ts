@@ -1,12 +1,10 @@
 import { App, TemplatedApp, us_listen_socket_close } from 'uWebSockets.js';
 import { Server } from 'socket.io';
 import signale from 'signale';
-import { SocketIoServer } from './typings/socket-io';
-import { registerHandlers } from './handlers';
-import {
-  generateTokenIfNeededMiddleware,
-  syncToken,
-} from './helpers/auth.helper';
+import { SocketIoServer } from './socket/typings.socket';
+import { SocketHandler } from './socket/handler.socket';
+import { getDocs } from './api/docs';
+import { ensureSocketHasToken } from '@/socket/middleware.socket';
 
 const createIoServer = (uwsApp: TemplatedApp): SocketIoServer => {
   const io: SocketIoServer = new Server({
@@ -17,12 +15,9 @@ const createIoServer = (uwsApp: TemplatedApp): SocketIoServer => {
 
   io.attachApp(uwsApp);
 
-  io.use(generateTokenIfNeededMiddleware);
+  io.use(ensureSocketHasToken);
 
-  io.on('connection', (socket) => {
-    syncToken(socket);
-    registerHandlers(io, socket);
-  });
+  io.on('connection', SocketHandler.register.bind(SocketHandler, io));
 
   return io;
 };
@@ -35,6 +30,8 @@ export const startServer = (
   io: SocketIoServer;
 }> => {
   const app = App();
+
+  app.get('/docs', getDocs);
 
   const io = createIoServer(app);
 

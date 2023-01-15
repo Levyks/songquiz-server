@@ -1,17 +1,19 @@
+import { services } from '@/services';
 import { config } from '@/config';
 import { Room } from '@/models/room.model';
-import { randomService } from '.';
+import { RandomService } from '@/services';
 
 export interface RoomVaultService {
-  retrieve: (roomCode: string) => Room;
-  getAvailableCode: () => string;
-  store: (room: Room) => void;
-  getNumberOfRooms: () => number;
+  retrieve(roomCode: string): Room;
+  getAvailableCode(): string;
+  store(room: Room): void;
+  getNumberOfRooms(): number;
 }
 
 export class RoomVaultServiceImpl implements RoomVaultService {
   private rooms = new Map<string, Room>();
   private reservedCodes = new Set<string>();
+  private readonly randomService: RandomService = services.random.get();
 
   retrieve(roomCode: string) {
     const room = this.rooms.get(roomCode);
@@ -26,7 +28,7 @@ export class RoomVaultServiceImpl implements RoomVaultService {
     let currentAttempt = 0;
 
     do {
-      const code = randomService.generateNumericString(codeLength);
+      const code = this.randomService.generateNumericString(codeLength);
 
       if (!this.rooms.has(code) && !this.reservedCodes.has(code)) {
         this.reservedCodes.add(code);
@@ -38,8 +40,8 @@ export class RoomVaultServiceImpl implements RoomVaultService {
   }
 
   store(room: Room) {
-    this.reservedCodes.delete(room.code);
     this.rooms.set(room.code, room);
+    this.reservedCodes.delete(room.code);
   }
 
   getNumberOfRooms() {

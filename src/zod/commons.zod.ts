@@ -1,10 +1,13 @@
 import { z } from 'zod';
 import { config } from '@/config';
 
+export const zodVoid = z.void();
+
 export const zodNickname = z
   .string()
   .min(config.room.nickname.minLength)
   .max(config.room.nickname.maxLength);
+
 export const zodRoomCode = z.string().length(config.room.code.length);
 
 export const zodNumberOfRounds = z
@@ -16,3 +19,5 @@ export const zodSecondsPerRound = z
   .number()
   .min(config.room.secondsPerRound.min)
   .max(config.room.secondsPerRound.max);
+
+export const zodScore = z.number().positive();

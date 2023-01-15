@@ -1,9 +1,40 @@
+import { container, inject } from 'tsyringe';
+import { constructor } from 'tsyringe/dist/typings/types';
 import { RandomService, RandomServiceImpl } from './random.service';
-import { RandomServiceTestImpl } from 'tests/overrides/services/random.service.test';
 import { RoomVaultService, RoomVaultServiceImpl } from './room-vault.service';
 
-const env = process.env.NODE_ENV;
+type ServiceDefinition<T> = {
+  key: string;
+  impl: constructor<T>;
+  get: () => T;
+};
 
-export const roomVaultService: RoomVaultService = new RoomVaultServiceImpl();
-export const randomService: RandomService =
-  env === 'test' ? new RandomServiceTestImpl() : new RandomServiceImpl();
+function def<T>(key: string, impl: constructor<T>): ServiceDefinition<T> {
+  return {
+    key,
+    impl,
+    get: () => {
+      console.log('key', key);
+      return container.resolve<T>(key);
+    },
+  };
+}
+
+export const services = {
+  roomVault: def<RoomVaultService>('roomVaultService', RoomVaultServiceImpl),
+  random: def<RandomService>('randomService', RandomServiceImpl),
+} as const;
+
+export function registerServices() {
+  for (const def of Object.values(services)) {
+    container.register(def.key, {
+      useClass: def.impl as constructor<unknown>,
+    });
+  }
+}
+
+export function injectService<T>(service: ServiceDefinition<T>) {
+  return inject(service.key);
+}
+
+export { RandomService, RoomVaultService };
